@@ -1018,12 +1018,21 @@ void extract_file(FILE *fp, int ipos, struct image_file *ent) {
 			processing_done = 1;
 		}
 	}
+
+    if (name[strlen(name) - 1] == '/')
+                        name[strlen(name) - 1] = 0;
+    if(mkdir_p(dirname(strdup(ent->path)))) {
+        printf("unable to mkdir -p for %s\n", name);
+        return;
+        }
+
 /*
 	if(mkdir_p(dirname(ent->path))) {
 		printf("unable to mkdir -p for %s\n", name);
 		return;
 	}
 */
+
 	if(!(dst = fopen(name, "wb"))) {
 		error(0, "Unable to open %s: %s\n", name, strerror(errno));
 	}
